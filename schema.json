@@ -1,0 +1,57 @@
+{
+  "entities": [
+    "camera_1",
+    "ground_plane",
+    "sun_light"
+  ],
+
+  "components": {
+    "Transform": {
+      "camera_1": {
+        "position": [0.0, 2.0, 5.0],
+        "rotation": [0.0, 0.0, 0.0],
+        "scale": [1.0, 1.0, 1.0]
+      },
+      "ground_plane": {
+        "position": [0.0, -1.0, 0.0],
+        "rotation": [0.0, 0.0, 0.0],
+        "scale": [10.0, 1.0, 10.0]
+      },
+      "sun_light": {
+        "position": [5.0, 10.0, 5.0],
+        "rotation": [-45.0, 45.0, 0.0],
+        "scale": [1.0, 1.0, 1.0]
+      }
+    },
+
+    "Camera": {
+      "camera_1": {
+        "fov": 60.0,
+        "near": 0.1,
+        "far": 1000.0
+      }
+    },
+
+    "RenderMesh": {
+      "ground_plane": {
+        "mesh": "plane",
+        "material": "mat_ground"
+      }
+    },
+
+    "PhysicsBody": {
+      "ground_plane": {
+        "bodyType": "static",
+        "collider": "box"
+      }
+    },
+
+    "Light": {
+      "sun_light": {
+        "lightType": "directional",
+        "color": [1.0, 1.0, 0.95],
+        "intensity": 3.0
+      }
+    }
+  }
+}
