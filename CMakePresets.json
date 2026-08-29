@@ -9,7 +9,8 @@
             "generator": "Unix Makefiles",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist"
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist",
+                "USE_OPENGL": "ON"
             }
         },
         {

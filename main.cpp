@@ -1,10 +1,10 @@
 //IGPU MAIN
-#include "IGpuBackend.hpp"
-#include "opengl_backend_adapter.hpp"   // or vulkan/d3d12
-#include "ecs_scene_loader.hpp"
-#include "ecs_schema_register.hpp"
-#include "system_runner_mt.hpp"
-#include "gpu_transform_pipeline.hpp"
+#include <gpu_pipeline/IGpuBackend.hpp>
+#include <backends/opengl/opengl_backend_adapter.hpp>   // or vulkan/d3d12
+#include <loader/scene_loader.hpp>
+#include <loader/schema_register.hpp>
+#include <systems/runner_mt.hpp>
+#include <gpu_pipeline/gpu_transform_pipeline.hpp>
 #include <simdjson.h>
 
 int main() {
@@ -27,7 +27,8 @@ int main() {
     GpuTransformBuffer gpuTransforms{
         .handle = gpu->create_buffer(
             reg.transform_storage().pos_x.size() * 3 * sizeof(float)
-        )
+        ),
+        .data = {}
     };
 
     GpuTransformPipeline::build_buffer(reg, gpuTransforms);

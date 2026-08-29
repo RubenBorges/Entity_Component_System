@@ -14,7 +14,7 @@ endif()
 # ---------------------------------------------------------
 # Backend options
 # ---------------------------------------------------------
-option(USE_OPENGL "Enable OpenGL backend" OFF)
+option(USE_OPENGL "Enable OpenGL backend" ON)
 option(USE_VULKAN "Enable Vulkan backend" OFF)
 option(USE_D3D12  "Enable D3D12 backend"  OFF)
 
@@ -39,44 +39,51 @@ endif()
 # Source files
 # ---------------------------------------------------------
 set(ECS_SOURCES
-    ecs_types.hpp
-    ecs_registry.hpp
-    soa_generic.hpp
-    soa_transform.hpp
+    entity/ecs_registry.hpp
 
-    components.hpp
-    components_parent.hpp
+    component/types.hpp
+    component/soa_generic.hpp
+    component/soa_transform.hpp
+    component/components.hpp
 
-    ecs_scene_loader.hpp
-    ecs_scene_loader.cpp
-    ecs_scene_loader_utils.hpp
+    loader/scene_loader.hpp
+    loader/scene_loader.cpp
+    loader/scene_loader_utils.hpp
+    loader/schema.hpp
+    loader/schema_register.hpp
 
-    ecs_schema.hpp
-    ecs_schema_register.hpp
+    systems/transform.hpp
+    systems/hierarchy.hpp
+    systems/render.hpp
+    systems/physics.hpp
+    systems/light.hpp
+    systems/runner_mt.hpp
 
-    system_transform.hpp
-    system_hierarchy.hpp
-    system_render.hpp
-    system_physics.hpp
-    system_light.hpp
-    system_runner_mt.hpp
-
-    gpu_transform_pipeline.hpp
+    gpu_pipeline/gpu_transform_pipeline.hpp
 
     main.cpp
 )
 
 # Optional backend sources
 if (USE_OPENGL)
-    list(APPEND ECS_SOURCES opengl_backend.hpp opengl_backend.cpp)
+    list(APPEND ECS_SOURCES
+        backends/opengl/opengl_backend.hpp
+        backends/opengl/opengl_backend.cpp
+    )
 endif()
 
 if (USE_VULKAN)
-    list(APPEND ECS_SOURCES vulkan_backend.hpp vulkan_backend.cpp)
+    list(APPEND ECS_SOURCES
+        backends/vulkan/vulkan_backend.hpp
+        backends/vulkan/vulkan_backend.cpp
+    )
 endif()
 
 if (USE_D3D12 AND WIN32)
-    list(APPEND ECS_SOURCES d3d12_backend.hpp d3d12_backend.cpp)
+    list(APPEND ECS_SOURCES
+        backends/d3d12/d3d12_backend.hpp
+        backends/d3d12/d3d12_backend.cpp
+    )
 endif()
 
 add_executable(ECS_Engine ${ECS_SOURCES})
@@ -107,4 +114,13 @@ configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/example_scene.json
     ${CMAKE_CURRENT_BINARY_DIR}/example_scene.json
     COPYONLY
+)
+
+install(TARGETS ECS_Engine
+    RUNTIME DESTINATION bin
+)
+
+install(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/example_scene.json
+    DESTINATION .
 )
